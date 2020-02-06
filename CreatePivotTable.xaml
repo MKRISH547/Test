@@ -1,0 +1,78 @@
+<Activity mc:Ignorable="sap sap2010" x:Class="CreatePivotTable" this:CreatePivotTable.argDataSheetName="Sheet1" this:CreatePivotTable.argInputExcelFilePath="C:\Users\mlalapet\Desktop\KPI Scorecard\Project Code_Sourcing - Monthly KPI Scorecard\Sourcing - Monthly KPI Scorecard\Data\VMCalendar.xlsx" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=mscorlib" xmlns:this="clr-namespace:" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property Name="argDataSheetName" Type="InArgument(x:String)" />
+    <x:Property Name="argInputExcelFilePath" Type="InArgument(x:String)" />
+    <x:Property Name="argColumns" Type="InArgument(s:String[])" />
+    <x:Property Name="out_exception" Type="InArgument(s:Exception)" />
+  </x:Members>
+  <mva:VisualBasic.Settings>
+    <x:Null />
+  </mva:VisualBasic.Settings>
+  <sap:VirtualizedContainerService.HintSize>408.8,377.6</sap:VirtualizedContainerService.HintSize>
+  <sap2010:WorkflowViewState.IdRef>CreatePivotTable_1</sap2010:WorkflowViewState.IdRef>
+  <TextExpression.NamespacesForImplementation>
+    <sco:Collection x:TypeArguments="x:String">
+      <x:String>System.Activities</x:String>
+      <x:String>System.Activities.Statements</x:String>
+      <x:String>System.Activities.Expressions</x:String>
+      <x:String>System.Activities.Validation</x:String>
+      <x:String>System.Activities.XamlIntegration</x:String>
+      <x:String>Microsoft.VisualBasic</x:String>
+      <x:String>Microsoft.VisualBasic.Activities</x:String>
+      <x:String>System</x:String>
+      <x:String>System.Collections</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Diagnostics</x:String>
+      <x:String>System.Drawing</x:String>
+      <x:String>System.IO</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Net.Mail</x:String>
+      <x:String>System.Xml</x:String>
+      <x:String>System.Xml.Linq</x:String>
+      <x:String>UiPath.Core</x:String>
+      <x:String>UiPath.Core.Activities</x:String>
+      <x:String>System.Windows.Markup</x:String>
+      <x:String>Microsoft.Office.Interop.Excel</x:String>
+    </sco:Collection>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <sco:Collection x:TypeArguments="AssemblyReference">
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System.Data.DataSetExtensions</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Drawing</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>PresentationFramework</AssemblyReference>
+      <AssemblyReference>WindowsBase</AssemblyReference>
+      <AssemblyReference>PresentationCore</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.UiAutomation.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Excel</AssemblyReference>
+      <AssemblyReference>Microsoft.Office.Interop.Excel</AssemblyReference>
+      <AssemblyReference>System.ServiceModel</AssemblyReference>
+      <AssemblyReference>UiPath.Mail</AssemblyReference>
+    </sco:Collection>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence DisplayName="CreatePivotTable" sap:VirtualizedContainerService.HintSize="368.8,257.6" sap2010:WorkflowViewState.IdRef="Sequence_1">
+    <sap:WorkflowViewStateService.ViewState>
+      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+      </scg:Dictionary>
+    </sap:WorkflowViewStateService.ViewState>
+    <ui:InvokeCode ContinueOnError="{x:Null}" Code="Dim excel As Microsoft.Office.Interop.Excel.Application&#xA;Dim wb As Microsoft.Office.Interop.Excel.Workbook&#xA;Dim ws As Microsoft.Office.Interop.Excel.Worksheet&#xA;Dim p_ws As Microsoft.Office.Interop.Excel.Worksheet&#xA;Dim rng As Microsoft.Office.Interop.Excel.Range 'capturing the range of sheet1 '''&#xA;Dim p_rng As Microsoft.Office.Interop.Excel.Range 'capturing the range of pivottable shhet1''&#xA;Dim lastRow As Integer&#xA;Dim wbs As Microsoft.Office.Interop.Excel.Workbooks &#xA;Dim con As Microsoft.Office.Interop.Excel.WorkbookConnection&#xA;&#xA;Try&#xA; excel = New Microsoft.Office.Interop.Excel.ApplicationClass'create the instance of excel work book'&#xA; wb = excel.Workbooks.Open(argInputExcelFilePath)'Open the excel the file'&#xA; excel.Visible=True&#xA; ws=CType(wb.Sheets(argDataSheetName),Microsoft.Office.Interop.Excel.Worksheet)'select a sheet and activiates'&#xA; ws.Activate&#xA;Dim cn As Microsoft.Office.Interop.Excel.WorkbookConnection&#xA;For Each cn In wb.Connections&#xA; If cn.Name &lt;&gt; &quot;ThisWorkbookDataModel&quot; Then&#xA;  cn.delete&#xA; End If&#xA;Next &#xA;  &#xA;  With wb&#xA; &#xA; con=  .Connections.Add2(Name :=&quot;DataModel&quot;,Description:=&quot;DataModel&quot;,ConnectionString:=&quot;WORKSHEET;&quot;+wb.FullName,CommandText:=ws.Name+&quot;!&quot;+ws.Range(&quot;A1&quot;).CurrentRegion.address,lCmdtype:=Microsoft.Office.Interop.Excel.XlCmdType.xlCmdExcel,CreateModelConnection:=True)&#xA;&#xA; End With &#xA; &#xA; p_ws=CType(wb.Sheets.Add,Microsoft.Office.Interop.Excel.Worksheet)'create a empty and and name the sheet as pivot table'&#xA; p_ws.Name=&quot;pivot&quot;&#xA; &#xA; p_rng= CType(p_ws.Cells(1,1),Microsoft.Office.Interop.Excel.Range) 'Specify the first cell for the pivot table'&#xA; &#xA; 'Creation pivot Cache and pivot table '&#xA; Dim oPivotCache As Microsoft.Office.Interop.Excel.PivotCache=Nothing&#xA; Dim oPivotTables As Microsoft.Office.Interop.Excel.PivotTables=Nothing&#xA; Dim oPivotTable As Microsoft.Office.Interop.Excel.PivotTable=Nothing&#xA;&#xA;&#xA;oPivotCache =CType(wb.PivotCaches.Create(SourceType:=Microsoft.Office.Interop.Excel.XlPivotTableSourceType.xlExternal,SourceData:=con,Version:=Microsoft.Office.Interop.Excel.XlPivotTableVersionList.xlPivotTableVersion15),Microsoft.Office.Interop.Excel.PivotCache)&#xA;&#xA;oPivotTables=DirectCast(p_ws.PivotTables(Type.Missing),Microsoft.Office.Interop.Excel.PivotTables)&#xA;&#xA; oPivotTable=oPivotTables.Add(oPivotCache,p_rng,&quot;TotalSavings&quot;,Type.Missing,Type.Missing)'first paramenter is cache,range the table should start,table name'&#xA; oPivotTable.SmallGrid=False&#xA; oPivotTable.ShowTableStyleRowStripes=True&#xA; oPivotTable.TableStyle2=&quot;PivotStyleLight2&quot;&#xA; &#xA; 'Creation of pivot Fields'&#xA; &#xA;&#xA;Dim CubeField1 As Microsoft.Office.Interop.Excel.CubeField &#xA; &#xA;Dim index As Integer = 1&#xA;Dim i As Integer =0&#xA;Dim colcount As Integer&#xA;colcount=argColumns.Count&#xA;&#xA;While colcount &gt; 0 &#xA;While index &lt;= CInt(oPivotTable.CubeFields.Count)&#xA; &#xA; If oPivotTable.CubeFields(index).Name.ToString.Equals(&quot;[Range].[&quot;+argColumns(i)+&quot;]&quot;) Then &#xA; &#xA;  CubeField1= oPivotTable.CubeFields(index)&#xA;  CubeField1.Orientation=Microsoft.Office.Interop.Excel.XlPivotFieldOrientation.xlPageField&#xA;&#xA; Else &#xA; End If&#xA; index += 1&#xA;End While&#xA;colcount=colcount-1&#xA; i=i+1&#xA;End While &#xA;  &#xA;Catch es As Exception&#xA; console.WriteLine(es.Message)&#xA; out_exception=es&#xA; Throw es&#xA; Finally&#xA; wb.Save()&#xA; wb.Close()&#xA; excel.Quit()&#xA; &#xA;End Try&#xA;" DisplayName="Invoke code" sap:VirtualizedContainerService.HintSize="330.4,164.8" sap2010:WorkflowViewState.IdRef="InvokeCode_1">
+      <ui:InvokeCode.Arguments>
+        <InArgument x:TypeArguments="x:String" x:Key="argDataSheetName">[argDataSheetName]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="argInputExcelFilePath">[argInputExcelFilePath]</InArgument>
+        <InArgument x:TypeArguments="s:String[]" x:Key="argColumns">[argColumns]</InArgument>
+        <InOutArgument x:TypeArguments="s:Exception" x:Key="out_exception">[out_exception]</InOutArgument>
+      </ui:InvokeCode.Arguments>
+    </ui:InvokeCode>
+  </Sequence>
+</Activity>
